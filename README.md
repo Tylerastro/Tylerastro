@@ -13,15 +13,22 @@
 - 📈 **1M+ requests / month across 195 REST endpoints** over 44 tables; I wrote ~90% of its 44K production lines
 - 🚀 **p99 39.2 s → 1.0 s**: moved a 37-second reconciliation off the request path behind a Postgres advisory lock; slow requests 880 → 19 per day
 - 🔁 **3× → exactly once**: traced a triple-firing scheduled job to a trigger timeout colliding with AWS async retries
-- 🌊 **418× retry amplification shut down**: 43K requests were fanning out into 18M Lambda invocations, half of all Lambda spend
-- 🧯 **Runaway job contained**: production API p99 28.2 s → 9.4 s; 5xx on the affected endpoint 87% → 0%
+- 🌊 **418× retry amplification shut down**: 43K requests were fanning out into 18M Lambda invocations
 - 🔍 **N+1 hunting**: 1,108 → 6 queries per request (12.3 s → 775 ms) and 244 → 3 (2.6 s → 210 ms) on core endpoints; primary API mean duration −48%, cold-start init −23%
-- 🔐 **Auth bypass closed**: replaced unverified JWT claim reads with full signature and expiry verification
+
+<details>
+<summary>More from production</summary>
+
+- 🧯 **Runaway job contained**: production API p99 28.2 s → 9.4 s; 5xx on the affected endpoint 87% → 0%
+- 🔐 **JWT verification hardened**: every token now checked for signature and expiry
 - 🤝 **100 PRs merged** integrating 2,392 commits from 8 engineers; introduced the team's first CI quality gate and its uv + ruff toolchain
+
+</details>
 
 ### 🛠️ Things I've built
 
 - 🔭 **[NCU TOM](https://tom.astro.ncu.edu.tw)**: target & observation manager in production at Lulin Observatory, built solo (FastAPI, PostgreSQL, Next.js). Rebuilt its light-curve plotting on canvas after benchmarking 15 charting libraries: DOM nodes 60,082 → 104 at 20k points · [issue tracker](https://github.com/Tylerastro/NCU_TOM-tracker)
+- ⚖️ **[sync-async-k8s-path](https://github.com/Tylerastro/sync-async-k8s-path)**: FastAPI sync vs async measured under Locust load, from CPU-pinned Docker Compose to Kubernetes. Async 512 vs sync 335 RPS, a connection-pool sweep from 167 to 642 RPS, and the single-pod breaking point at 5,000 users · [interactive walkthrough](https://tylerastro.github.io/sync-async-k8s-path/)
 - 🤖 **[tylerastro.dev](https://tylerastro.dev)**: my trilingual notebook for code, life and 推し活, with *Tyler-bot*, a streaming chat assistant on the Vercel AI SDK checked by an 80+ case pytest eval suite
 - 🎤 **[Utano Track](https://utanotrack.fans)**: 15,000+ fan timestamps from VTuber streams, turned into a clickable song index
 - 🎶 **[Let's Sing Together](https://www.lets-sing-together.com/en-US)**: YouTube playback synced line by line to lyrics, for learning Japanese by singing along
